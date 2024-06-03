@@ -16,18 +16,22 @@ export default function App() {
     <NavigationContainer>
     <Stack.Navigator screenOptions={{
       headerStyle : {
-        backgroundColor : Colors.primary200
+        backgroundColor : Colors.primary400
+      },
+      contentStyle : {
+        backgroundColor : Colors.primary800
       }
     }}>
-      <Stack.Screen name='AllPlaces' component={AllPlaces} options={{
+      <Stack.Screen name='AllPlaces' component={AllPlaces} options={({navigation}) => ({
         title : 'Your Favourite Places',
-        headerTintColor : Colors.primary800,
-        headerRight : ({tintColor})  => <IconButton name='pluscircleo' size={24} tintColor={tintColor} />
+        
+        headerRight : ({tintColor})  => <IconButton name='pluscircleo' size={24} tintColor={tintColor} onPress={() => navigation.navigate('AddPlace')} />
+      })} />
+      <Stack.Screen name='AddPlace' component={AddPlace} options={{
+        presentation : 'modal',
+        title : 'Add Your Favourite Place'
       }} />
-      <Stack.Screen name='AddPlace' component={AddPlace} />
     </Stack.Navigator>
     </NavigationContainer>
   );
 }
-
-

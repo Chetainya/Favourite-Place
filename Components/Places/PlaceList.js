@@ -1,11 +1,13 @@
-import {FlatList, Text, View} from 'react-native'
+import {FlatList, StyleSheet, Text, View} from 'react-native'
 import PlaceItem from './PlaceItem'
+import { Colors } from '../../utils/Colors'
+
 
 function PlaceList({places}){
 
     if(!places){
-        return <View>
-            <Text>Add Your Favourite Place</Text>
+        return <View style={styles.container}>
+            <Text style={styles.text}>Add Your Favourite Place</Text>
         </View>
     }
 
@@ -16,3 +18,15 @@ function PlaceList({places}){
 }
 
 export default PlaceList
+
+const styles = StyleSheet.create({
+    container : {
+        flex : 1,
+        justifyContent : 'center',
+        alignItems : 'center'
+    },
+    text : {
+        color : Colors.primary200,
+        fontSize : 20
+    }
+})
