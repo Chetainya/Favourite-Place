@@ -1,15 +1,37 @@
-import { useState } from "react"
+import { useCallback, useState } from "react"
 import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native"
 import { Colors } from "../../utils/Colors";
 import ImagePicker from "./ImagePicker";
+import LocationPicker from "./LocationPicker";
+import Button from "../UI/Button";
+import { Place } from "../../models/PlaceModal";
 
-function PlaceForm(){
+function PlaceForm({onCreatePlace}){
 
     const [enteredTitle , setEnteredTitle] = useState('');
+    const [pickedLocation , setPickedLocation] = useState('')
+    const [PickedImage , setPickedImage] = useState('')
+
+    const onPickImageHandeler = useCallback((ImageUri) => {
+
+        setPickedImage(ImageUri)
+    } , [])
+
+    const onPickLocationHandeler = useCallback((data) => {
+
+        setPickedLocation(data)
+    } , [])
 
     function titleChangeHandeler(enteredText){
         setEnteredTitle(enteredText)
 
+    }
+
+    function addPlaceHandeler(){
+        
+        const place = new Place(enteredTitle , PickedImage , pickedLocation)
+        console.log(place)
+        onCreatePlace(place)
     }
 
     return <ScrollView>
@@ -17,7 +39,12 @@ function PlaceForm(){
             <Text style={styles.text}>Title</Text>
             <TextInput style={styles.input} placeholder="Enter Title" value={enteredTitle} onChangeText={titleChangeHandeler}></TextInput>
         </View>
-        <ImagePicker />
+        <ImagePicker onPickImage={onPickImageHandeler} />
+        <LocationPicker onPickLocation={onPickLocationHandeler} />
+        <View style={styles.submit}>
+
+        <Button title='Submit' onPress={addPlaceHandeler} />
+        </View>
     </ScrollView>
 }
 export default PlaceForm
@@ -36,5 +63,8 @@ const styles = StyleSheet.create({
     },
     text : {
         color : Colors.primary200
+    },
+    submit : {
+        padding : 10
     }
 })

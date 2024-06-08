@@ -1,16 +1,19 @@
-import { Alert, Button, Image, StyleSheet, View } from "react-native";
+import { Alert, Image, StyleSheet, View } from "react-native";
 import {PermissionStatus, launchCameraAsync, useCameraPermissions} from 'expo-image-picker'
-import { useState } from "react";
-function ImagePicker(){
-    const [status, requestPermission] = useCameraPermissions();
+import { useEffect, useState } from "react";
+import OutlineButton from "../UI/OutlineButton";
+
+
+function ImagePicker({onPickImage}){
+    const [cameraPermissionInfo, requestPermission] = useCameraPermissions();
     const [image , setImage] = useState('');
 
     async function verifyPermissions(){
-        if(status === PermissionStatus.UNDETERMINED){
+        if(cameraPermissionInfo.status === PermissionStatus.UNDETERMINED){
             const permissionResponse = await requestPermission();
             return permissionResponse.granted;
         }
-         if(status === PermissionStatus.DENIED){
+         if(cameraPermissionInfo.status === PermissionStatus.DENIED){
             Alert.alert('Insufficient Priviligies' , 'Please grant camera access to save your favourite Places');
             return false
         }
@@ -30,11 +33,18 @@ function ImagePicker(){
         console.log('uri' , image.assets[0].uri)
         setImage(image.assets[0].uri)
     }
+
+    useEffect(() => {
+
+        onPickImage(image)
+    } , [image , onPickImage])
     return <View>
         <View style={styles.imageContainer} >
             {image && <Image style={styles.image} source={{uri : image}} />}
         </View>
-        <Button title="Add Image" onPress={handleImagePicker} />
+        {/* <Button title="Add Image" onPress={handleImagePicker} /> */}
+        <OutlineButton name='image' color='white' onPress={handleImagePicker}>Image</OutlineButton>
+     
     </View>
 }
 

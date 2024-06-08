@@ -5,7 +5,8 @@ import { Colors } from '../../utils/Colors'
 
 function PlaceList({places}){
 
-    if(!places){
+    console.log('All Places' , places)
+    if(places.length === 0){
         return <View style={styles.container}>
             <Text style={styles.text}>Add Your Favourite Place</Text>
         </View>

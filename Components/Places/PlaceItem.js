@@ -1,7 +1,8 @@
-import { Image, Pressable, View } from "react-native"
+import { Image, Pressable, View , Text } from "react-native"
 
 function PlaceItem({place}){
 
+    console.log(place)
     return <Pressable>
         <Image source={{uri : place.imageUri}} />
         <View>
